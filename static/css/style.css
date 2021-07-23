@@ -1,14 +1,7 @@
-html,
-body {
+html, body {
   height: 100%;
-}
-
-body {
-  display: flex;
-  align-items: center;
-  padding-top: 40px;
-  padding-bottom: 40px;
-  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
 }
 
 .portfolio{
@@ -16,29 +9,18 @@ body {
   border-radius: 10px;
   width: 100%;
   max-width: 660px;
-  min-height: 900px;
+  min-height: 80%px;
   padding: 15px;
-  margin: auto;
+  /* margin: auto; */
 }
 
 .portfolio .btn-lg{
   min-width: 75%;
-  margin: auto;
+  /* margin: auto; */
 }
 
 #search_string{
   width: 100%;
-}
-
-.form-signin {
-  width: 100%;
-  max-width: 330px;
-  padding: 15px;
-  margin: auto;
-}
-
-.form-signin .form-floating:focus-within {
-  z-index: 2;
 }
 
 .form-signin input[type="email"] {
@@ -51,15 +33,4 @@ body {
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
-}
-
-.container {
-  max-width: 660px;
-  padding: 15px;
-  margin: auto;
-}
-
-.container .btn{
-  max-width: 220px;
-  margin: auto;
 }

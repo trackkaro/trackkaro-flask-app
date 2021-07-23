@@ -1,0 +1,17 @@
+autopep8 
+cachelib==0.2.0
+certifi==2021.5.30
+click 
+Flask 
+Flask-Session==0.4.0
+importlib-metadata 
+itsdangerous 
+Jinja2 
+MarkupSafe 
+mechanize==0.4.5
+passlib==1.7.4
+psycopg2 
+pycodestyle 
+toml 
+Werkzeug 
+zipp 
