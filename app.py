@@ -87,7 +87,7 @@ def search_page():
             if 'longname' not in quotes[i].keys():
                 quotes[i]['longname'] = quotes[i]['shortname']
 
-        print(quotes)
+        # print(quotes)
 
         return render_template('search.html', quotes=quotes)
     return render_template('search.html')
