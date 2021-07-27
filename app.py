@@ -27,56 +27,51 @@ def create_account():
             conn.close
 
         except Exception as e:
-			return render_template('register.html',message="Registration failed. Please try again. " + str(e))
-		return render_template('register.html',message="Registration Sucessful")
-	else:
-		return render_template('register.html')
+            return render_template('register.html', message="Registration failed. Please try again. " + str(e))
+
+        return render_template('register.html', message="Registration Sucessful")
+    else:
+        return render_template('register.html')
 
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
 
-	if request.method == "POST":
-		#fetch hash for request.form['email']
-		#verify hash with request.form['password']
-		#set session variable
-		conn=pg2.connect(database='portfolio tracker test',user='postgres', password='password')
-		cur=conn.cursor()
-		try:
-			query1= f"SELECT PASS_WORD FROM USER_CREDENTIALSS WHERE EMAIL = '{request.form['email']}'"
-		
+    if request.method == "POST":
+        # fetch hash for request.form['email']
+        # verify hash with request.form['password']
+        # set session variable
+        conn = pg2.connect(database='portfolio tracker test',
+                           user='postgres', password='password')
+        cur = conn.cursor()
+        try:
+            query1 = f"SELECT PASS_WORD FROM USER_CREDENTIALSS WHERE EMAIL = '{request.form['email']}'"
 
-			cur=conn.cursor()
-			cur.execute(query1)
-			data_fetch=cur.fetchall()
-			if len(data_fetch)>0:
-				#print(data_fetch)
-				verified=sha256_crypt.verify(request.form['password'], data_fetch[0][0])
-				if verified:
-					return render_template('login.html',message="Login Successful.")
-				else:
-					return render_template('login.html',message="Invalid Email/Password.")
+            cur = conn.cursor()
+            cur.execute(query1)
+            data_fetch = cur.fetchall()
+            if len(data_fetch) > 0:
+                # print(data_fetch)
+                verified = sha256_crypt.verify(
+                    request.form['password'], data_fetch[0][0])
+                if verified:
+                    return render_template('login.html', message="Login Successful.")
+                else:
+                    return render_template('login.html', message="Invalid Email/Password.")
+
+            else:
+
+                return render_template('login.html', message='Please enter a vaild username or password.')
+
+        except Exception as e:
+            return render_template('login.html', message='error occured')
+        conn.close
+
+        return render_template('home.html')
+    else:
+        return render_template('login.html')
 
 
-			else:
-
-				return render_template('login.html',message='Please enter a vaild username or password.')
-		
-		except Exception as e:
-			return render_template('login.html',message='error occured')
-		conn.close
-	
-		return render_template('home.html')
-	else:
-		return render_template('login.html')
-
-
-'''@app.route('/validate', methods=["POST"])
-def validate():
-	if request.method=='POST':
-		return redirect(url_for('success'))
-	return redirect(url_for('login'))
-'''
 @app.route('/search', methods=["GET", "POST"])
 def search_page():
     if request.method == "POST":
@@ -92,6 +87,6 @@ def search_page():
         return render_template('search.html', quotes=quotes)
     return render_template('search.html')
 
-if __name__=='__main__':
-	app.run(debug=True)
 
+if __name__ == '__main__':
+    app.run(debug=True)
