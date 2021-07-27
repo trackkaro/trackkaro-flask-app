@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Trakkaro | Home
+{% endblock %}
+
+{% block content %}
+
+<div style="margin: auto; margin-top: 20px; margin-bottom: 20px;">
+    <div class="container">
+        <div class="row text-center">
+            <div id="search_bar" class="container" style="margin-bottom: 20px;">
+                <form action="/search" method="POST">
+                    <div class="row">
+                        <div class="col-10" style="margin: 0; padding: 0;">
+                            <input type="text" class="form-control" id="search_string" name="search_string"
+                                placeholder="keywords">
+                        </div>
+                        <div class="col-2" style="margin: 0; padding: 0;">
+                            <button class="btn btn-primary" type="submit">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <hr>
+        </div>
+
+        {% for quote in quotes %}
+
+        <div class="row" style="margin-bottom: 5px;">
+            <div class="col-9">
+                <h7 class="fw-bold">{{quote['longname']}}</h7><br>
+                <h7>Exchange : {{quote['exchange']}}</h7><br>
+                <h7>Type: {{quote['quoteType']}}</h7><br>
+            </div>
+
+            <div class="col-3">
+                <h6 class="fw-bold">{{quote['symbol']}}</h6>
+            </div>
+
+            <hr>
+        </div>
+
+        {% endfor %}
+
+    </div>
+</div>
+
+{% endblock %}
