@@ -45,8 +45,8 @@ def create_account():
 			conn.close
 
 		except Exception as e:
-			print(str(e))
-		return render_template('register.html')
+			return render_template('register.html',message="Registration failed. Please try again. " + str(e))
+		return render_template('register.html',message="Registration Sucessful")
 	else:
 		return render_template('register.html')   
 
@@ -75,40 +75,31 @@ def login():
 				#print(data_fetch)
 				verified=sha256_crypt.verify(request.form['password'], data_fetch[0][0])
 				if verified:
-					print("login successful")
+					return render_template('login.html',message="Login Successful.")
 				else:
-					print("invalid password")
+					return render_template('login.html',message="Invalid Email/Password.")
 
 
 			else:
 
-				print('Please enter a vaild username or password.')
+				return render_template('login.html',message='Please enter a vaild username or password.')
 		
 		except Exception as e:
-			print('érror',str(e))
+			return render_template('login.html',message='error occured')
 		conn.close
 	
-		return render_template('login.html')
+		return render_template('home.html')
 	else:
 		return render_template('login.html')
 
 
+'''@app.route('/validate', methods=["POST"])
+def validate():
+	if request.method=='POST':
+		return redirect(url_for('success'))
+	return redirect(url_for('login'))
+'''
 
 if __name__=='__main__':
 	app.run(debug=True)
 
-'''
-conn=pg2.connect(database='portfolio tracker test',user='postgres', password='password')
-cur=conn.cursor()
-try:
-	query1= "SELECT * FROM USER_CREDENTIALSS"
-	cur=conn.cursor()
-	cur.execute(query1)
-	
-	r = cur.fetchall()
-	#conn.commit()
-	print(r)
-	conn.close
-except Exception as e:
-	print(str(e))
-'''
