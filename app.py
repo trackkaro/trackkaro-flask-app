@@ -8,7 +8,7 @@ app = Flask(__name__, template_folder='templates')
 app.secret_key = "9ZSo4tbgZALx4k"
 
 
-@app.route('/', methods=["GET", "POST"])
+@app.route('/register', methods=["GET", "POST"])
 def create_account():
     if request.method == "POST":
         print(request.form['firstName'], request.form['lastName'], request.form['userName'],
@@ -96,20 +96,14 @@ def home():
     if quotes == None:
         return render_template('home.html', message="Add Assets", assets=[])
 
-    assets = []
-    for quote in quotes:
-        data = get_data_yf(quote[0])
-        asset = {
-            'ticker': quote[0],
-            'longName': data['longName'],
-            'market': data['market'],
-            'quoteType': data['quoteType'],
-            'currency': data['currency'],
-            'quantity': quote[5],
-            'ltp': data['previousClose']
-        }
-        assets.append(asset)
-    return render_template('home.html', assets=assets)
+    tickers = ' '.join([quote[0] for quote in quotes]).lower()
+
+    datalist = get_data_yf(tickers)
+
+    for i in range(len(datalist)):
+        datalist[i]['quantity'] = quotes[i][1]
+
+    return render_template('home.html', assets=datalist)
 
 
 def get_asset(username):
