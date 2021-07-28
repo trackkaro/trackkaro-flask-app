@@ -41,7 +41,7 @@ Trakkaro | Home
                 <h6 class="fw-bold">{{asset['ticker']}}</h6>
                 <h7>{{asset['longName']}}</h7><br>
                 <h7>Quantity: {{asset['quantity']}}</h7><br>
-                <h7>Asset Value: {{ asset['quantity'] * asset['ltp'] }} {{asset['currency']}}</h7><br>
+                <h7>Asset Value: {{ asset['quantity'] * asset['previousClose'] }} {{asset['currency']}}</h7><br>
             </div>
             <div class="col-2">
                 <button class="btn btn-primary btn-sm btn-block mb-3" type="submit">Edit</button>
