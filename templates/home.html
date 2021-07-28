@@ -34,12 +34,13 @@ Trakkaro | Home
             </div>
             <hr>
         </div>
-        <!--Sample Assets-->
+
+        {% for asset in assets %}
         <div class="row">
             <div class="col-10">
-                <h6 class="fw-bold">TSLA</h6>
-                <h7>Tipu Sultan Luxury Automobiles</h7><br>
-                <h7>Quantity: 35</h7><br>
+                <h6 class="fw-bold">{{asset[0]}}</h6>
+                <h7>{{asset[1]}}</h7><br>
+                <h7>Quantity: {{asset[5]}}</h7><br>
                 <h7>Asset Value: 134 &dollar;</h7><br>
             </div>
             <div class="col-2">
@@ -47,20 +48,8 @@ Trakkaro | Home
             </div>
             <hr>
         </div>
-        <div class="row">
-            <div class="col-10">
-                <h6 class="fw-bold">KG</h6>
-                <h7>Kalpana Garments</h7><br>
-                <h7>Quantity: 35</h7><br>
-                <h7>Asset Value: 13400 &dollar;</h7><br>
-            </div>
-            <div class="col-2">
-                <button class="btn btn-primary btn-sm btn-block mb-3" type="submit">Edit</button>
-            </div>
-            <hr>
-        </div>
+        {% endfor %}
 
-        <!--End Sample-->
     </div>
 </div>
 

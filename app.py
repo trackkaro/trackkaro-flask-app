@@ -87,21 +87,29 @@ def search_page():
         return render_template('search.html', quotes=quotes)
     return render_template('search.html')
 
-@app.route('/home', methods=["GET","POST"])
-def get_asset():
-    if request.method=="POST":
-        conn = pg2.connect(database='portfolio tracker test',user='postgres', password='password')
-        cur = conn.cursor()
-        try:
-            query2= f"select sum(buy_quantity) as total_quantity,buying_data.ticker_id, tick_data.quote_type, tick_data.long_name, tick_data.exchange, tick_data.ticker from buying_data inner join tick_data on buying_data.ticker_id=tick_data.ticker_id where username='{request.form['username']}' group by buying_data.ticker_id,tick_data.long_name, tick_data.exchange, tick_data.ticker, tick_data.quote_type"
-            cur=conn.cusor()
-            cur.execute(query2)
-            data_fetch=cur.fetchall()
-            lst=list(data_fetch)
-            return lst
-        except Exception as e:
-            print('error')
-        conn.close()
+
+@app.route('/home', methods=["GET", "POST"])
+def home():
+    assets = get_asset('meet@gmail.com')
+    if assets == None:
+        return render_template('home.html', message="Add Assets", assets=[])
+    return render_template('home.html', assets=assets)
+
+
+def get_asset(username):
+    conn = pg2.connect(database='portfolio tracker test',
+                       user='postgres', password='password')
+    cur = conn.cursor()
+    try:
+        query2 = f"select sum(buy_quantity) as total_quantity,buying_data.ticker_id, tick_data.quote_type, tick_data.long_name, tick_data.exchange, tick_data.ticker from buying_data inner join tick_data on buying_data.ticker_id=tick_data.ticker_id where username='{username}' group by buying_data.ticker_id,tick_data.long_name, tick_data.exchange, tick_data.ticker, tick_data.quote_type"
+        cur.execute(query2)
+        data_fetch = cur.fetchall()
+        lst = list(data_fetch)
+        return lst
+    except Exception as e:
+        print('error')
+    conn.close()
+    return None
 
 
 if __name__ == '__main__':
