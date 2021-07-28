@@ -1,8 +1,8 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, request
 from passlib.hash import sha256_crypt
-import json
 import psycopg2 as pg2
 from search import search
+from fetch import get_data_yf
 
 app = Flask(__name__, template_folder='templates')
 app.secret_key = "9ZSo4tbgZALx4k"
@@ -90,9 +90,25 @@ def search_page():
 
 @app.route('/home', methods=["GET", "POST"])
 def home():
-    assets = get_asset('meet@gmail.com')
-    if assets == None:
+
+    quotes = get_asset('meet@gmail.com')
+
+    if quotes == None:
         return render_template('home.html', message="Add Assets", assets=[])
+
+    assets = []
+    for quote in quotes:
+        data = get_data_yf(quote[0])
+        asset = {
+            'ticker': quote[0],
+            'longName': data['longName'],
+            'market': data['market'],
+            'quoteType': data['quoteType'],
+            'currency': data['currency'],
+            'quantity': quote[5],
+            'ltp': data['previousClose']
+        }
+        assets.append(asset)
     return render_template('home.html', assets=assets)
 
 

@@ -3,11 +3,11 @@ import datetime
 
 
 def get_data_yf(ticker):
+    print("fetching data for", ticker)
     # getting current date
     info = yf.Ticker(ticker).info
     info_keys = info.keys()
     try:
-
         data = dict()
         data['ticker'] = ticker
         data['previousClose'] = info['previousClose']
