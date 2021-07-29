@@ -15,42 +15,29 @@ Trakkaro | Home
             <hr>
         </div>
         <div class="row text-center">
-            <button class="btn btn-primary btn-lg btn-block mb-3" data-bs-toggle="collapse" href="#search_bar">Add
-                Asset</button>
-            <div id="search_bar" class="container collapse">
-                <form>
-                    <div class="row">
+            <a href="/search"><button class="btn btn-primary btn-lg btn-block mb-3" href="/search">Add
+                    Asset</button></a>
 
-                        <div class="col-10">
-                            <input type="text" class="form-control" id="search_string" placeholder="keywords">
-                        </div>
-                        <div class="col-2">
-                            <button class="btn btn-primary btn-sm btn-block mb-3" type="submit">Search</button>
-                        </div>
-
-                    </div>
-                </form>
-
-            </div>
-            <hr>
         </div>
-
-        {% for asset in assets %}
-        <div class="row">
-            <div class="col-10">
-                <h6 class="fw-bold">{{asset['ticker']}}</h6>
-                <h7>{{asset['longName']}}</h7><br>
-                <h7>Quantity: {{asset['quantity']}}</h7><br>
-                <h7>Asset Value: {{ asset['quantity'] * asset['previousClose'] }} {{asset['currency']}}</h7><br>
-            </div>
-            <div class="col-2">
-                <button class="btn btn-primary btn-sm btn-block mb-3" type="submit">Edit</button>
-            </div>
-            <hr>
-        </div>
-        {% endfor %}
-
+        <hr>
     </div>
+
+    {% for asset in assets %}
+    <div class="row">
+        <div class="col-10">
+            <h6 class="fw-bold">{{asset['ticker']}}</h6>
+            <h7>{{asset['longName']}}</h7><br>
+            <h7>Quantity: {{asset['quantity']}}</h7><br>
+            <h7>Asset Value: {{ asset['quantity'] * asset['previousClose'] }} {{asset['currency']}}</h7><br>
+        </div>
+        <div class="col-2">
+            <a href="/edit/{{asset['ticker']}}"><button class="btn btn-primary btn-sm btn-block mb-3">Edit</button></a>
+        </div>
+        <hr>
+    </div>
+    {% endfor %}
+
+</div>
 </div>
 
 
