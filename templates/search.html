@@ -26,24 +26,24 @@ Trakkaro | Home
         </div>
 
         {% for quote in quotes %}
-
         <div class="row" style="margin-bottom: 5px;">
-            <div class="col-9">
+            <div class="col-md-9">
                 <h7 class="fw-bold">{{quote['longname']}}</h7><br>
                 <h7>Exchange : {{quote['exchange']}}</h7><br>
                 <h7>Type: {{quote['quoteType']}}</h7><br>
             </div>
 
-            <div class="col-3">
-                <h6 class="fw-bold">{{quote['symbol']}}</h6>
+            <div class="col-md-3 float-right">
+                <h6 class="fw-bold">{{quote['symbol']}}</h6><br>
+
+                <a href="/edit/{{quote['symbol']}}"><button
+                        class="btn btn-primary btn-sm btn-block mb-3">Add</button></a>
+
             </div>
 
             <hr>
         </div>
-
         {% endfor %}
-
     </div>
-</div>
 
-{% endblock %}
+    {% endblock %}

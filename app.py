@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 from passlib.hash import sha256_crypt
 import psycopg2 as pg2
 from search import search
@@ -30,7 +30,7 @@ def create_account():
             conn.close()
             return render_template('register.html', message="Registration failed. Please try again. " + str(e))
 
-        return render_template('login.html', message="Registration Sucessful")
+        return redirect('login.html')
     else:
         return render_template('register.html')
 
@@ -57,7 +57,7 @@ def login():
                     request.form['password'], data_fetch[0][0])
                 conn.close()
                 if verified:
-                    return render_template('home.html', message="Login Successful.")
+                    return redirect('home.html')
                 else:
                     return render_template('login.html', message="Invalid Email/Password.")
 
@@ -93,18 +93,32 @@ def search_page():
 def home():
 
     quotes = get_asset('meet@gmail.com')
+    #quotes = [('TSLA', 5), ('MSFT', 5), ('GOOG', 5)]
 
     if quotes == None:
         return render_template('home.html', message="Add Assets", assets=[])
 
-    tickers = ' '.join([quote[0] for quote in quotes]).lower()
+    tickers = ' '.join([quote[-1] for quote in quotes]).lower()
 
     datalist = get_data_yf(tickers)
 
     for i in range(len(datalist)):
-        datalist[i]['quantity'] = quotes[i][1]
+        datalist[i]['quantity'] = quotes[i][0]
 
     return render_template('home.html', assets=datalist)
+
+
+@app.route('/edit/<ticker>')
+def edit_page(ticker):
+    # fetch ticker details
+    data = get_data_yf(ticker)[0]
+
+    return render_template('edit.html', data=data)
+
+
+@app.route('/logout')
+def logout():
+    return redirect('/login')
 
 
 def get_asset(username):
