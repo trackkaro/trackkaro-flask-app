@@ -3,6 +3,7 @@ from passlib.hash import sha256_crypt
 import psycopg2 as pg2
 from search import search
 from fetch import get_data_yf
+from get_tick_data import get_tick_data
 
 app = Flask(__name__, template_folder='templates')
 app.secret_key = "9ZSo4tbgZALx4k"
@@ -92,7 +93,7 @@ def search_page():
 @app.route('/home', methods=["GET", "POST"])
 def home():
 
-    quotes = get_asset('meet@gmail.com')
+    quotes = get_asset('harshit@gmail.com')
     #quotes = [('TSLA', 5), ('MSFT', 5), ('GOOG', 5)]
 
     if quotes == None:
@@ -108,12 +109,23 @@ def home():
     return render_template('home.html', assets=datalist)
 
 
-@app.route('/edit/<ticker>')
+@app.route('/edit/<ticker>', methods=['GET','POST'])
 def edit_page(ticker):
     # fetch ticker details
-    data = get_data_yf(ticker)[0]
-
-    return render_template('edit.html', data=data)
+    if request.method=="GET":
+        
+        username="harshit@gmail.com"
+        print("fetching transactions",username,":",ticker)
+        transactions = get_tick_data(username,ticker)
+        data = get_data_yf(ticker)[0]
+        
+        if len(transactions)>0:
+            return render_template('edit.html', data=data, transactions=transactions)
+            
+        else:
+            return render_template('edit.html', data=data)
+    else:
+        return render_template('edit.html', data=data)
 
 
 @app.route('/logout')
