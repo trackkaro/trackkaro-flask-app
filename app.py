@@ -24,12 +24,13 @@ def create_account():
             cur = conn.cursor()
             cur.execute(query)
             conn.commit()
-            conn.close
+            conn.close()
 
         except Exception as e:
+            conn.close()
             return render_template('register.html', message="Registration failed. Please try again. " + str(e))
 
-        return render_template('register.html', message="Registration Sucessful")
+        return render_template('login.html', message="Registration Sucessful")
     else:
         return render_template('register.html')
 
@@ -54,20 +55,20 @@ def login():
                 # print(data_fetch)
                 verified = sha256_crypt.verify(
                     request.form['password'], data_fetch[0][0])
+                conn.close()
                 if verified:
-                    return render_template('login.html', message="Login Successful.")
+                    return render_template('home.html', message="Login Successful.")
                 else:
                     return render_template('login.html', message="Invalid Email/Password.")
 
             else:
-
+                conn.close()
                 return render_template('login.html', message='Please enter a vaild username or password.')
 
         except Exception as e:
+            conn.close()
             return render_template('login.html', message='error occured')
-        conn.close
 
-        return render_template('home.html')
     else:
         return render_template('login.html')
 
@@ -115,6 +116,7 @@ def get_asset(username):
         cur.execute(query2)
         data_fetch = cur.fetchall()
         lst = list(data_fetch)
+        conn.close()
         return lst
     except Exception as e:
         print('error')
